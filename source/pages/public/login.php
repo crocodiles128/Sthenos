@@ -25,22 +25,29 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <nav id="main-nav" class="hidden md:flex items-center space-x-6 text-sm">
-                    <a href="home-page.php" class="hover:text-yellow-400 transition flex items-center"><i class="fas fa-home mr-1"></i>Início</a>
+                    <a href="landing.php" class="hover:text-yellow-400 transition flex items-center"><i class="fas fa-home mr-1"></i>Início</a>
                     <a href="#" class="hover:text-yellow-400 transition flex items-center"><i class="fas fa-sign-in-alt mr-1"></i>Login</a>
                 </nav>
             </div>
         </div>
         <div id="mobile-nav" class="md:hidden hidden bg-gray-900/95 border-t border-gray-700">
-            <a href="home-page.php" class="block px-4 py-3 text-white hover:bg-gray-800">Início</a>
+            <a href="landing.php" class="block px-4 py-3 text-white hover:bg-gray-800">Início</a>
             <a href="#" class="block px-4 py-3 text-white hover:bg-gray-800">Login</a>
         </div>
     </header>
 
     <main class="min-h-screen flex items-center justify-center p-6">
         <section class="w-full max-w-md bg-white/90 backdrop-blur-md border border-gray-200 rounded-3xl shadow-2xl p-8 md:p-10" data-aos="fade-up">
+            <?php
+            $error = $_GET['error'] ?? '';
+            if ($error) {
+                echo "<div class='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4'>$error</div>";
+            }
+
+            ?>
             <h2 class="text-3xl font-extrabold text-gray-800 mb-4 text-center">Entrar na sua conta</h2>
             <p class="text-gray-600 mb-6 text-center">Use seu email e senha para acessar o painel de treinos.</p>
-            <form action="#" method="post" class="space-y-4">
+            <form action="../../API/auth/login.php" method="post" class="space-y-4">
                 <div>
                     <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
                     <input id="email" name="email" type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="seu@exemplo.com"/>

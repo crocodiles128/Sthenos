@@ -17,20 +17,9 @@ CREATE TABLE IF NOT EXISTS auth (
   senha VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS financeiro (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nome_completo VARCHAR(255),
-  cpf VARCHAR(20),
-  valor_bruto DECIMAL(12,2),
-  desconto DECIMAL(12,2),
-  ultimo_pagamento DATE,
-  situacao VARCHAR(100)
-);
-
 CREATE TABLE IF NOT EXISTS exercicios (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(255) NOT NULL,
-  descricao TEXT,
   tutorial TEXT,
   video VARCHAR(500)
 );
@@ -38,9 +27,30 @@ CREATE TABLE IF NOT EXISTS exercicios (
 CREATE TABLE IF NOT EXISTS treinos (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
-  personal INT,
+  personal_id INT NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  data_treino DATETIME DEFAULT CURRENT_TIMESTAMP,
+  data_atualizacao DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (personal) REFERENCES users(id)
+  FOREIGN KEY (personal_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS agendamentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    treino_id INT NOT NULL,
+    data_hora DATETIME NOT NULL,
+    status ENUM('pendente', 'confirmado', 'cancelado', 'realizado') DEFAULT 'pendente',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES users(id),
+    FOREIGN KEY (treino_id) REFERENCES treinos(id)
+);
+
+CREATE TABLE IF NOT EXISTS treinos_realizados (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  data_treino DATE NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS treino_exercicios (
